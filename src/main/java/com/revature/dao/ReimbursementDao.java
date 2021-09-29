@@ -21,16 +21,16 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
 			String sql = "insert into reimbursements (reimb_amount, reimb_submitted, reimb_description, reimb_receipt, reimb_author, reimb_status_id, reimb_type_id)" +
-			"values (?, ?, ?, ?, ?, 1, ?)";
+			"values (?, ?, ?, null, ?, 1, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, reimburse.getReimb_amount());
 			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(3, reimburse.getReimb_description());
-			ps.setString(4, reimburse.getReimb_receipt());
-			ps.setInt(5, reimburse.getReimb_author());
-			ps.setInt(6, reimburse.getReimb_type_id());
+			
+			ps.setInt(4, reimburse.getReimb_author());
+			ps.setInt(5, reimburse.getReimb_type_id());
 			
 			ps.executeUpdate();					
 					
@@ -48,9 +48,10 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 			String sql = "select * from reimbursements where reimb_status_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
+			
 			ps.setInt(1, status_id);
 			
-			ResultSet rs = ps.executeQuery(sql);
+			ResultSet rs = ps.executeQuery();
 			
 			List<Reimbursement> reimbursementList = new ArrayList<>();
 			
@@ -102,11 +103,11 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 	}
 
 	@Override
-	public List<Reimbursement> viewReimbursement() {
+	public List<Reimbursement> viewAllReimbursement() {
 
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "select * from reimbursements";
+			String sql = "select * from reimbursements order by reimb_id";
 			
 			Statement s = conn.createStatement();
 			

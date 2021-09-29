@@ -61,6 +61,35 @@ public class Reimbursement {
 		this.reimb_type_id = reimb_type_id;
 	}
 
+	public Reimbursement(int reimb_amount, String reimb_submitted, String reimb_description, int reimb_author,
+			int reimb_status_id, int reimb_type_id) {
+		super();
+		this.reimb_amount = reimb_amount;
+		this.reimb_submitted = reimb_submitted;
+		this.reimb_description = reimb_description;
+		this.reimb_author = reimb_author;
+		this.reimb_status_id = reimb_status_id;
+		this.reimb_type_id = reimb_type_id;
+	}
+
+	public Reimbursement(int reimb_amount, String reimb_description, int reimb_author, int reimb_status_id,
+			int reimb_type_id) {
+		super();
+		this.reimb_amount = reimb_amount;
+		this.reimb_description = reimb_description;
+		this.reimb_author = reimb_author;
+		this.reimb_status_id = 1;
+		this.reimb_type_id = reimb_type_id;
+	}
+
+	public Reimbursement(int reimb_amount, String reimb_description, int reimb_author, int reimb_type_id) {
+		super();
+		this.reimb_amount = reimb_amount;
+		this.reimb_description = reimb_description;
+		this.reimb_author = reimb_author;
+		this.reimb_type_id = reimb_type_id;
+	}
+
 	@Override
 	public String toString() {
 		return "Reimbursement [reimb_id=" + reimb_id + ", reimb_amount=" + reimb_amount + ", reimb_submitted="

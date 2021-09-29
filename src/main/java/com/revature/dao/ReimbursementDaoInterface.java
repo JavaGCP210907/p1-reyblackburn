@@ -16,7 +16,7 @@ public interface ReimbursementDaoInterface {
 	public void updateReimbursementStatus(int reimb_id, int reimb_status);
 	
 	//View updated status
-	public List<Reimbursement> viewReimbursement();
+	public List<Reimbursement> viewAllReimbursement();
 	
 	//Get New Reimbursement for finance manager
 	public Reimbursement newReimbursementTask();

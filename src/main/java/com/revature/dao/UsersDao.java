@@ -15,6 +15,8 @@ public class UsersDao implements UsersDaoInterface {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
 			String sql = "select username, password from users where username=? and password=?";
+			String usern;
+			String userp;
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -23,17 +25,54 @@ public class UsersDao implements UsersDaoInterface {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			rs.next();
-			if(rs.getString("username").equals(username) && rs.getString("password").equals(password)) {
-				return true;
+			if(rs.next()){
+			
+				if(username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
 			}
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
+
+	}
+
+	@Override
+	public int getRoleId(String username, String password) {
+
+		UsersDao uDao = new UsersDao();
 		
-		return false;
+		if(uDao.verifyUsernamePassword(username, password)){
+			
+			try(Connection conn = ConnectionUtil.getConnection()){
+				
+				String sql = "select user_role_id_fk from users where username=? and password=?";
+				
+				PreparedStatement ps = conn.prepareStatement(sql);
+				
+				ps.setString(1, username);
+				ps.setString(2, password);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				rs.next();
+				
+				return rs.getInt("user_role_id_fk");
+				
+				
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return 0;
 	}
 
 }
