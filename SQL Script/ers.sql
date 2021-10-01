@@ -27,9 +27,8 @@ CREATE TABLE reimbursements (
 	reimb_id serial PRIMARY KEY,
 	reimb_amount int,
 	reimb_submitted timestamp,
-	reimb_resolved timestamp,
+	reimb_resolved timestamp DEFAULT NULL,
 	reimb_description varchar(250),
-	reimb_receipt bytea,
 	reimb_author int REFERENCES users(users_id),
 	reimb_resolver int REFERENCES users(users_id) DEFAULT NULL,
 	reimb_status_id int REFERENCES reimbursement_statuses(status_id),
@@ -43,11 +42,9 @@ VALUES ('LODGING'),
 	   ('OTHER');
 	  
 INSERT INTO reimbursement_statuses (status)
-VALUES ('NEW'),
-	   ('PENDING'),
+VALUES ('PENDING'),
 	   ('GRANTED'),
-	   ('DENIED'),
-	   ('AUDIT');
+	   ('DENIED');
 	  
 INSERT INTO user_roles (user_role)
 VALUES ('Employee'),
@@ -57,17 +54,15 @@ INSERT INTO users (username, PASSWORD, first_name, last_name, user_email, user_r
 VALUES ('rey.blackburn', 'Password12', 'Rey', 'Blackburn', 'rey.blackburn@revature.net', 1),
 	   ('john.doe', 'Passphrase21', 'John', 'Doe', 'johnydoe@revature.net', 2);
 	  
-INSERT INTO reimbursements (reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)
-values (250, '2021-08-15 08:12:15', NULL, 'Had a food', NULL, 1, NULL, 1, 3),
-	   (100, '2021-08-21 09:15:36', NULL, 'Place to sleep', NULL, 1, NULL, 1, 2),
-	   (25, '2021-09-1 12:30:12', '2021-09-05 10:15:14', 'Flight to Las Vegas', NULL, 1, 2, 2, 4);
+INSERT INTO reimbursements (reimb_amount, reimb_description, reimb_submitted, reimb_resolved, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)
+values (250, 'Had a food','2021-09-21', NULL, 1, NULL, 1, 3),
+	   (100, 'Place to sleep', '2021-09-24', NULL, 1, NULL, 1, 1),
+	   (25, 'Flight to Las Vegas', '2021-09-25', '2021-09-26', 1, 2, 2, 3);
 
 DROP TABLE IF EXISTS reimbursements;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS reimbursement_statuses;
 DROP TABLE IF EXISTS reimbursement_types;
-
-
 
 

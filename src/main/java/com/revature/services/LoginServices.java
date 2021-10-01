@@ -11,5 +11,11 @@ public class LoginServices {
 		return uDao.verifyUsernamePassword(username, password);
 		
 	}
+	
+	public int getRoleId(String username, String password) {
+		
+		return uDao.getRoleId(username, password);
+		
+	}
 
 }

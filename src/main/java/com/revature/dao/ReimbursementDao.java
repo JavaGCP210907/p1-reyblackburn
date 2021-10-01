@@ -20,15 +20,14 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "insert into reimbursements (reimb_amount, reimb_submitted, reimb_description, reimb_receipt, reimb_author, reimb_status_id, reimb_type_id)" +
-			"values (?, ?, ?, null, ?, 1, ?)";
+			String sql = "insert into reimbursements (reimb_amount, reimb_description, reimb_submitted, reimb_author, reimb_status_id, reimb_type_id)" +
+			"values (?, ?, ?, ?, 1, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, reimburse.getReimb_amount());
-			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setString(3, reimburse.getReimb_description());
-			
+			ps.setString(2, reimburse.getReimb_description());
+			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setInt(4, reimburse.getReimb_author());
 			ps.setInt(5, reimburse.getReimb_type_id());
 			
@@ -41,7 +40,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 	}
 
 	@Override
-	public List<Reimbursement> reimbursementByStatusId(int status_id) {
+	public List<Reimbursement> getReimbursementByStatusId(int status_id) {
 
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
@@ -63,7 +62,6 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 						rs.getString("reimb_submitted"),
 						rs.getString("reimb_resolved"),
 						rs.getString("reimb_description"),
-						rs.getString("reimb_receipt"),
 						rs.getInt("reimb_author"),
 						rs.getInt("reimb_resolver"),
 						rs.getInt("reimb_status_id"),
@@ -83,16 +81,18 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 	}
 
 	@Override
-	public void updateReimbursementStatus(int reimb_id, int reimb_status) {
+	public void updateReimbursementStatus(int reimb_id, int reimb_status, int user_id) {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "update reimbursements set reimb_status_id = ? where reimb_id = ?";
+			String sql = "update reimbursements set reimb_status_id = ?, reimb_resolved = ?, reimb_author = ? where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, reimb_status);
-			ps.setInt(2, reimb_id);
+			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(3, user_id);
+			ps.setInt(4, reimb_id);
 			
 			ps.executeUpdate();
 			
@@ -103,7 +103,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 	}
 
 	@Override
-	public List<Reimbursement> viewAllReimbursement() {
+	public List<Reimbursement> getAllReimbursement() {
 
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
@@ -123,7 +123,6 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 						rs.getString("reimb_submitted"),
 						rs.getString("reimb_resolved"),
 						rs.getString("reimb_description"),
-						rs.getString("reimb_receipt"),
 						rs.getInt("reimb_author"),
 						rs.getInt("reimb_resolver"),
 						rs.getInt("reimb_status_id"),
@@ -142,22 +141,24 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 		return null;
 	}
 
-	@Override
-	public Reimbursement newReimbursementTask() {
 
+
+	@Override
+	public List<Reimbursement> getReimbursementByUserId(int user_id) {
+		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "select * from reimbursements where reimb_status_id = 1 limit 1";
+			String sql = "select * from reimbursements where reimb_status_id = ?";
 			
-			Statement s = conn.createStatement();
+			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ResultSet rs = s.executeQuery(sql);
+			ps.setInt(1, user_id);
 			
-			if(!rs.next()) {
-				
-				return null;
-				
-			} else {
+			ResultSet rs = ps.executeQuery();
+			
+			List<Reimbursement> reimbursementList = new ArrayList<>();
+			
+			while(rs.next()) {
 				
 				Reimbursement r = new Reimbursement(
 						rs.getInt("reimb_id"),
@@ -165,16 +166,16 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 						rs.getString("reimb_submitted"),
 						rs.getString("reimb_resolved"),
 						rs.getString("reimb_description"),
-						rs.getString("reimb_receipt"),
 						rs.getInt("reimb_author"),
 						rs.getInt("reimb_resolver"),
 						rs.getInt("reimb_status_id"),
 						rs.getInt("reimb_type_id")
 						);
-						
-				return r;
 				
+				reimbursementList.add(r);
 			}
+			
+			return reimbursementList;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

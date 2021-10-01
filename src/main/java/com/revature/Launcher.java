@@ -39,13 +39,17 @@ public class Launcher {
 		
 		app.post("/login", lc.loginHandler);
 		
+		app.get("/login/roleId", lc.getRoleIdHandler);
+		
 		app.get("/reimbursements", rc.getAllReimbursementsHandler);
+		
+		app.get("/reimbursements/userId", rc.getReimbursementByUserIdHandler);
 		
 		app.post("/reimbursements/add", rc.addNewReimbursementHandler);
 		
 		app.put("/reimbursements/update", rc.updateReimbursementStatusHandler);
 		
-//		app.get("reimbursements/status", rc.getReimbursementByStatusHandler);
+		app.get("reimbursements/status", rc.getReimbursementByStatusHandler);
 
 	}
 

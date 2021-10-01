@@ -15,8 +15,6 @@ public class UsersDao implements UsersDaoInterface {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
 			String sql = "select username, password from users where username=? and password=?";
-			String usern;
-			String userp;
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
