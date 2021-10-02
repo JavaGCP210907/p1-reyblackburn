@@ -2,17 +2,9 @@ package com.revature;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.revature.controllers.LoginController;
 import com.revature.controllers.ReimbursementController;
-import com.revature.dao.ReimbursementDao;
-import com.revature.dao.UsersDao;
-import com.revature.models.Reimbursement;
 import com.revature.utils.ConnectionUtil;
 
 import io.javalin.Javalin;
@@ -39,11 +31,13 @@ public class Launcher {
 		
 		app.post("/login", lc.loginHandler);
 		
-		app.get("/login/roleId", lc.getRoleIdHandler);
+		app.post("/login/roleId", lc.getRoleIdHandler);
+		
+		app.post("/login/userId", lc.getUserIdHandler);
 		
 		app.get("/reimbursements", rc.getAllReimbursementsHandler);
 		
-		app.get("/reimbursements/userId", rc.getReimbursementByUserIdHandler);
+		app.post("/reimbursements/userId", rc.getReimbursementByUserIdHandler);
 		
 		app.post("/reimbursements/add", rc.addNewReimbursementHandler);
 		

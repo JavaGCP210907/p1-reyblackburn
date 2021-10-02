@@ -18,4 +18,10 @@ public class LoginServices {
 		
 	}
 
+	public int getUserId(String username, String password) {
+		
+		return uDao.getUserId(username, password);
+		
+	}
+
 }

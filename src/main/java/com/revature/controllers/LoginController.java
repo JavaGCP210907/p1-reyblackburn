@@ -62,4 +62,27 @@ public class LoginController {
 		
 	};
 
+
+	public Handler getUserIdHandler = (ctx) -> {
+		if(ctx.req.getSession(false) != null) {
+			
+			String body = ctx.body();
+			
+			Gson gson = new Gson();
+			
+			LoginDTO LDTO = gson.fromJson(body, LoginDTO.class);
+			
+			int user_id = ls.getUserId(LDTO.getUsername(), LDTO.getPassword());
+			
+			String JSONUser_Id = gson.toJson(user_id);
+			
+			ctx.status(200);
+			
+			ctx.result(JSONUser_Id);
+			
+		} else {
+			ctx.status(403);
+		}
+	};
+
 }

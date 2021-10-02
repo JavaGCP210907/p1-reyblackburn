@@ -43,34 +43,53 @@ public class UsersDao implements UsersDaoInterface {
 
 	@Override
 	public int getRoleId(String username, String password) {
-
-		UsersDao uDao = new UsersDao();
-		
-		if(uDao.verifyUsernamePassword(username, password)){
 			
-			try(Connection conn = ConnectionUtil.getConnection()){
+		try(Connection conn = ConnectionUtil.getConnection()){
 				
-				String sql = "select user_role_id_fk from users where username=? and password=?";
+			String sql = "select user_role_id_fk from users where username=? and password=?";
 				
-				PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 				
-				ps.setString(1, username);
-				ps.setString(2, password);
+			ps.setString(1, username);
+			ps.setString(2, password);
 				
-				ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 				
-				rs.next();
+			rs.next();
 				
-				return rs.getInt("user_role_id_fk");
+			return rs.getInt("user_role_id_fk");
 				
-				
-			}catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
+		}catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return 0;
+	}
+
+	public int getUserId(String username, String password) {
+			
+		try(Connection conn = ConnectionUtil.getConnection()){
+				
+			String sql = "select users_id from users where username=? and password=?";
+				
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, username);
+			ps.setString(2, password);
+				
+			ResultSet rs = ps.executeQuery();
+				
+			rs.next();
+				
+			return rs.getInt("users_id");
+				
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+	return 0;
+		
 	}
 
 }

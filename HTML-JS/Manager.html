@@ -11,26 +11,29 @@
 </head>
 <body>
     <div class="container" id="fullcontainer">
-
-        <table id="reimbursementTable" class="table table-hover table-bordered table-dark">
-            <thead id="reimbursementHead">
-                <tr>
-                    <th>ID</th>
-                    <th>Reimbursement Amount</th>
-                    <th>Reimbursement Submitted</th>
-                    <th>Reimbursement Resolved</th>
-                    <th>Reimbursement Description</th>
-                    <th>Reimbursement Author</th>
-                    <th>Reimbursement Status</th>
-                    <th>Reimbursement Type</th>
-                </tr>
-            </thead>
-            <tbody id="reimburssementBody">
-                <!--Leave blank and will be filled in by JS when data comes in-->
-            </tbody>
-        </table>
-    
-
-    <script src="ers.js"></script>
+        <div id="table-row" class="row">
+            <table id="reimbursementTable" class="table table-hover table-bordered table-dark">
+                <thead id="reimbursementHead">
+                    <tr>
+                        <th>ID</th>
+                        <th>Reimbursement Amount</th>
+                        <th>Reimbursement Submitted</th>
+                        <th>Reimbursement Resolved</th>
+                        <th>Reimbursement Description</th>
+                        <th>Reimbursement Author</th>
+                        <th>Reimbursement Status</th>
+                        <th>Reimbursement Type</th>
+                    </tr>
+                </thead>
+                <tbody id="reimburssementBody">
+                    <!--Leave blank and will be filled in by JS when data comes in-->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button id="updateReimbursement" class="btn dark-btn">Update Reimbursement</button>
+        </div>
+    </div>
+    <script src="Manager.js"></script>
 </body>
 </html>
