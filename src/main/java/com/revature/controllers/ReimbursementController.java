@@ -43,8 +43,6 @@ public class ReimbursementController {
 			
 			Reimbursement newReimbursement = gson.fromJson(body, Reimbursement.class);
 			
-			System.out.println(newReimbursement);
-			
 			rs.addReimbursement(newReimbursement);
 			
 			ctx.result("Added New Reimbursement");
@@ -108,11 +106,7 @@ public class ReimbursementController {
 		
 		UpdateStatusDTO usDTO = gson.fromJson(body, UpdateStatusDTO.class);
 		
-		System.out.println(usDTO);
-		
-		List<Reimbursement> allReimbursements = rs.getReimbursementsByUserId(1);
-		
-		System.out.println(allReimbursements);
+		List<Reimbursement> allReimbursements = rs.getReimbursementsByUserId(usDTO.getUser_id());
 		
 		String JSONReimbursements = gson.toJson(allReimbursements);
 		

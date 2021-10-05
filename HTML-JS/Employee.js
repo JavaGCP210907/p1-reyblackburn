@@ -82,7 +82,6 @@ async function getReimbursement() {
             } else if(reimbursement.reimb_type_id ==4){
                 cell6.innerHTML = "OTHER";
             }
-            
             row.appendChild(cell6);
 
             document.getElementById("reimbursementBody").appendChild(row);
