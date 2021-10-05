@@ -6,15 +6,21 @@ let userId = sessionStorage.getItem("userId");
 console.log(roleId);
 console.log(userId);
 
-document.getElementById("reimbursementTable").addEventListener("load", getReimbursement);
-document.getElementById("addReimbursement").addEventListener("click", addReimburseFunc);
+document.getElementById("employeeBody").addEventListener("load", getReimbursement());
+document.getElementById("addReimbursementButton").addEventListener("click", addReimburseFunc);
 
 async function getReimbursement() {
+
+    let user = {
+        reimb_id:0,
+        status_id:0,
+        user_id:userId
+    }
 
     let response = await fetch(url + "reimbursements/userId", 
     {
         method: "POST",
-        body: JSON.stringify(userId),
+        body: JSON.stringify(user),
         credentials: "include"
     });
 
@@ -23,6 +29,8 @@ async function getReimbursement() {
     if(response.status === 200){
 
         let data = await response.json();
+
+        console.log(data);
 
         for(let reimbursement of data){
 
@@ -40,7 +48,11 @@ async function getReimbursement() {
 
             //resolved
             let cell3 = document.createElement("td");
-            cell3.innerHTML = reimbursement.reimb_resolved;
+            if(reimbursement.reimb_resolved){
+                cell3.innerHTML = reimbursement.reimb_resolved;
+            } else {
+                cell3.innerHTML = "Not Resolved";
+            }
             row.appendChild(cell3);
 
             //description
@@ -50,19 +62,77 @@ async function getReimbursement() {
 
             //status
             let cell5 = document.createElement("td");
-            cell5.innerHTML = reimbursement.reimb_status_id;
+            if(reimbursement.reimb_status_id == 1){
+                cell5.innerHTML = "PENDING";
+            } else if(reimbursement.reimb_status_id == 2){
+                cell5.innerHTML = "GRANTED";
+            } else if (reimbursement.reimb_status_id == 3){
+                cell5.innerHTML = "DENIED";
+            }
             row.appendChild(cell5);
 
             //type
             let cell6 = document.createElement("td");
-            cell6.innerHTML = reimbursement.reimb_type_id;
+            if(reimbursement.reimb_type_id ==1){
+                cell6.innerHTML = "LODGING";
+            } else if(reimbursement.reimb_type_id ==2){
+                cell6.innerHTML = "TRAVEL";
+            } else if(reimbursement.reimb_type_id ==3){
+                cell6.innerHTML = "FOOD";
+            } else if(reimbursement.reimb_type_id ==4){
+                cell6.innerHTML = "OTHER";
+            }
+            
             row.appendChild(cell6);
+
+            document.getElementById("reimbursementBody").appendChild(row);
         }
 
     }
 
  }
 
- async function addReimburseFunc() {
+  async function addReimburseFunc() {
 
- }
+     let amount = document.getElementById("amount").value;
+     let description = document.getElementById("description").value;
+     let type = document.getElementById("type").value;
+
+     let typeId;
+
+     if(type === "LODGING"){
+         typeId = 1;
+     } else if (type === "TRAVEL"){
+         typeId = 2;
+     } else if (type === "FOOD"){
+         typeId = 3;
+     } else {
+         typeId = 4;
+     }
+
+     let reimburse = {
+         reimb_amount:amount,
+         reimb_description:description,
+         reimb_author:userId,
+         reimb_status_id:1,
+         reimb_type_id:typeId
+     }
+
+     console.log(reimburse);
+
+     let response = await fetch(url + "reimbursements/add", {
+         method:"POST",
+         body: JSON.stringify(reimburse),
+         credentials: "include"
+     });
+
+     console.log(response.status);
+
+     if(response.status === 200){
+         console.log(response);
+         location.reload();
+     } else {
+         console.log("Add failed");
+     }
+
+  }

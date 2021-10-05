@@ -4,7 +4,6 @@ let userId;
 let roleId;
 
 document.getElementById("loginButton").addEventListener("click", loginFunc);
-// document.getElementById("updateReimbursement").addEventListener("click", updateReimburseFunc);
 
 async function loginFunc() {
     let usern = document.getElementById("username").value;
@@ -18,7 +17,6 @@ async function loginFunc() {
     console.log(user);
 
     let loginResponse = await fetch(url + 'login', {
-
         method: "POST",
         body: JSON.stringify(user),
         credentials: "include"
@@ -67,6 +65,3 @@ async function loginFunc() {
 
 }
 
-// async function updateReimburseFunc() {
-
-// }

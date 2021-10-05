@@ -29,6 +29,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 			ps.setString(2, reimburse.getReimb_description());
 			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setInt(4, reimburse.getReimb_author());
+			ps.setInt(5, reimburse.getReimb_status_id());
 			ps.setInt(5, reimburse.getReimb_type_id());
 			
 			ps.executeUpdate();					
@@ -148,7 +149,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "select * from reimbursements where reimb_status_id = ?";
+			String sql = "select * from reimbursements where reimb_author = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			

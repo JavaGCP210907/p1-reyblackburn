@@ -6,12 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.revature.dao.ReimbursementDao;
 import com.revature.dao.UsersDao;
+import com.revature.models.Reimbursement;
 import com.revature.utils.ConnectionUtil;
 
 public class Tests {
@@ -61,5 +63,20 @@ public class Tests {
 		assertEquals(i, 1);
 	}
 	
+	@Test
+	public void testGetReimbursementByUserId() {
+		List<Reimbursement> reimbursements =  rDao.getReimbursementByUserId(1);
+		for(Reimbursement r : reimbursements) {
+			System.out.println(r);
+		}
+	}
+	
+	@Test
+	public void testGetAllReimbursements() {
+		List<Reimbursement> reimbursements = rDao.getAllReimbursement();
+		for(Reimbursement r : reimbursements) {
+			System.out.println(r);
+		}
+	}
 
 }

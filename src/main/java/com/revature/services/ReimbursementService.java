@@ -27,8 +27,7 @@ public class ReimbursementService {
 	}
 
 	public List<Reimbursement> getReimbursementsByUserId(int user_id) {
-		rDao.getReimbursementByUserId(user_id);
-		return null;
+		return rDao.getReimbursementByUserId(user_id);
 	}
 
 }
