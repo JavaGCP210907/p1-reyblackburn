@@ -30,7 +30,23 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <h2>Please select a Reimbursement Type you would like to filter</h2>
+            <label for="statusFilter">Choose a Reimbursement Type:</label>
+            <select name="statusFilter" id="statusFilter">
+                <option value="BLANK"></option>
+                <option value="PENDING">PENDING</option>
+                <option value="GRANTED">LODGING</option>
+                <option value="DECLINED">TRAVEL</option>
+            </select>
+        </div>
         <div id="updateReimbursementContainer">
+            <input type="text" id="reimbId" placeholder="Please put in the number of the reimbursement you would like to update" class="col-sm-4">
+            <label for="status">Choose a Reimbursement Status: </label>
+            <select name="status" id="status">
+                <option value="GRANTED">GRANTED</option>
+                <option value="DECLINED">DECLINED</option>
+            </select>
             <button id="updateReimbursementButton" class="btn dark-btn">Update Reimbursement</button>
         </div>
     </div>
