@@ -15,7 +15,7 @@ public class ReimbursementController {
 
 	public Handler getAllReimbursementsHandler = (ctx) -> {
 		
-//		if(ctx.req.getSession(false) != null) {
+		if(ctx.req.getSession(false) != null) {
 			
 			List<Reimbursement> allReimbursements = rs.getAllReimbursements();
 			
@@ -27,15 +27,15 @@ public class ReimbursementController {
 			
 			ctx.status(200);
 			
-//		} else {
-//			ctx.status(403);
-//		}
+		} else {
+			ctx.status(403);
+		}
 		
 	};
 	
 	public Handler addNewReimbursementHandler = (ctx) -> {
 		
-//		if(ctx.req.getSession(false) != null) {
+		if(ctx.req.getSession(false) != null) {
 			
 			String body = ctx.body();
 			
@@ -49,14 +49,14 @@ public class ReimbursementController {
 			
 			ctx.status(200);
 			
-//		} else {
-//			ctx.status(403);
-//		}
+		} else {
+			ctx.status(403);
+		}
 	};
 
 	public Handler updateReimbursementStatusHandler = (ctx) -> {
 		
-//		if(ctx.req.getSession(false) != null) {
+		if(ctx.req.getSession(false) != null) {
 			
 			String body = ctx.body();
 			
@@ -70,14 +70,14 @@ public class ReimbursementController {
 			
 			ctx.status(200);
 			
-//		} else {
-//			ctx.status(403);
-//		}
+		} else {
+			ctx.status(403);
+		}
 	};
 
 	public Handler getReimbursementByStatusHandler = (ctx) -> {
 		
-//		if(ctx.req.getSession(false) != null) {
+		if(ctx.req.getSession(false) != null) {
 			
 			String body = ctx.body();
 			
@@ -93,9 +93,9 @@ public class ReimbursementController {
 			
 			ctx.status(200);
 			
-//		} else {
-//			ctx.status(403);
-//		}
+		} else {
+			ctx.status(403);
+		}
 	};
 
 	public Handler getReimbursementByUserIdHandler = (ctx) -> {

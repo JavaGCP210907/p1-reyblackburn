@@ -45,7 +45,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "select * from reimbursements where reimb_status_id = ?";
+			String sql = "select * from reimbursements where reimb_status_id = ? order by reimb_id";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -86,7 +86,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "update reimbursements set reimb_status_id = ?, reimb_resolved = ?, reimb_author = ? where reimb_id = ?";
+			String sql = "update reimbursements set reimb_status_id = ?, reimb_resolved = ?, reimb_resolver = ? where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			

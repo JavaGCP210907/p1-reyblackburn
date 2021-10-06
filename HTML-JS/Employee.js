@@ -9,6 +9,7 @@ console.log(userId);
 document.getElementById("employeeBody").addEventListener("load", getReimbursement());
 document.getElementById("addReimbursementButton").addEventListener("click", addReimburseFunc);
 
+
 async function getReimbursement() {
 
     let user = {
@@ -135,3 +136,5 @@ async function getReimbursement() {
      }
 
   }
+
+  

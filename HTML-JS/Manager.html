@@ -25,7 +25,7 @@
                         <th>Reimbursement Type</th>
                     </tr>
                 </thead>
-                <tbody id="reimburssementBody">
+                <tbody id="reimbursementBody">
                     <!--Leave blank and will be filled in by JS when data comes in-->
                 </tbody>
             </table>
@@ -36,8 +36,8 @@
             <select name="statusFilter" id="statusFilter">
                 <option value="BLANK"></option>
                 <option value="PENDING">PENDING</option>
-                <option value="GRANTED">LODGING</option>
-                <option value="DECLINED">TRAVEL</option>
+                <option value="GRANTED">GRANTED</option>
+                <option value="DENIED">DECLINED</option>
             </select>
         </div>
         <div id="updateReimbursementContainer">
@@ -45,9 +45,12 @@
             <label for="status">Choose a Reimbursement Status: </label>
             <select name="status" id="status">
                 <option value="GRANTED">GRANTED</option>
-                <option value="DECLINED">DECLINED</option>
+                <option value="DENIED">DECLINED</option>
             </select>
             <button id="updateReimbursementButton" class="btn dark-btn">Update Reimbursement</button>
+        </div>
+        <div id="logout">
+            <button id="logoutBtn" class="btn btn-dark">Logout</button>
         </div>
     </div>
     <script src="Manager.js"></script>

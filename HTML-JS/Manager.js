@@ -3,373 +3,313 @@ const url = "http://localhost:8090/";
 let roleId = sessionStorage.getItem("roleId");
 let userId = sessionStorage.getItem("userId");
 
-document.getElementById("managerBody").addEventListener("load",getReimburseFunc());
-document.getElementById("statusFilter").addEventListener("change",filterReimburseFunc());
+document.getElementById("statusFilter").addEventListener("onselect",filterReimburseFunc());
 document.getElementById("updateReimbursementButton").addEventListener("click", updateReimburseFunc);
-
-async function getReimburseFunc(){
-
-    let response = await fetch(url + "reimbursements",{credentials:"include"})
-
-    console.log(response);
-
-    if(response.status === 200){
-        let data = await response.json();
-
-        for(let reimbursement of data){
-
-            let row = document.createElement("tr");
-
-            //reimburse id
-            let cell = document.createElement("td");
-            cell.innerHTML = reimbursement.reimb_id;
-            row.appendChild(cell);
-
-            //reimburse amount
-            let cell2 = document.createElement("td");
-            cell2.innerHTML = reimbursement.reimb_amount;
-            row.appendChild(cell2);
-
-            //reimburse submitted
-            let cell3 = document.createElement("td");
-            cell3.innerHTML = reimbursement.reimb_submitted;
-            row.appendChild(cell3);
-
-            //reimburse resolved
-            let cell4 = document.createElement("td");
-            if(reimbursement.reimb_resolved){
-                cell4.innerHTML = reimbursement.reimb_resolved;
-            } else {
-                cell4.innerHTML = "UNRESOLVED";
-            }
-            row.appendChild(cell4);
-
-            //reimb description
-            let cell5 = document.createElement("td");
-            cell5.innerHTML = reimbursement.reimb_description;
-            row.appendChild(cell5);
-
-            //reimb author
-            let cell6 = document.createElement("td");
-            cell6.innerHTML = reimbursement.reimb_author;
-            row.appendChild(cell6);
-
-            //reimburse status
-            let cell7 = document.createElement("td");
-            cell7.innerHTML = reimbursement.reimb_status_id;
-            row.appendChild(cell7);
-
-            //reimburse type
-            let cell8 = document.createElement("td");
-            cell8.innerHTML = reimbursement.reimb_type_id;
-            row.appendChild(cell8);
-
-            document.getElementById("reimbursementBody").appendChild(row);
-        }
-    }
-
-}
+document.getElementById("logoutBtn").addEventListener("click", logoutFunc());
 
 async function filterReimburseFunc(){
     let status = document.getElementById("statusFilter").value;
+    const myNode = document.getElementById("reimbursementBody");
 
-    switch(status){
-        case "BLANK":
-            removeAllChildNodes(document.getElementById("reimbursementBody"));
+    if(status === "BLANK"){
 
-            let response = await fetch(url + "reimbursements",{credentials:"include"})
+        while(myNode.lastElementChild){
+            myNode.removeChild(myNode.lastElementChild);
+        }
 
-            console.log(response);
+        let response = await fetch(url + "reimbursements",{credentials:"include"})
 
-            if(response.status === 200){
+        console.log(response);
+
+        if(response.status === 200){
             
-                let data = await response.json();
+            let data = await response.json();
 
-                for(let reimbursement of data){
+            for(let reimbursement of data){
 
-                    let row = document.createElement("tr");
+                let row = document.createElement("tr");
 
-                    //reimburse id
-                    let cell = document.createElement("td");
-                    cell.innerHTML = reimbursement.reimb_id;
-                    row.appendChild(cell);
+                //reimburse id
+                let cell = document.createElement("td");
+                cell.innerHTML = reimbursement.reimb_id;
+                row.appendChild(cell);
 
-                    //reimburse amount
-                    let cell2 = document.createElement("td");
-                    cell2.innerHTML = reimbursement.reimb_amount;
-                    row.appendChild(cell2);
+                //reimburse amount
+                let cell2 = document.createElement("td");
+                cell2.innerHTML = reimbursement.reimb_amount;
+                row.appendChild(cell2);
 
-                    //reimburse submitted
-                    let cell3 = document.createElement("td");
-                    cell3.innerHTML = reimbursement.reimb_submitted;
-                    row.appendChild(cell3);
+                //reimburse submitted
+                let cell3 = document.createElement("td");
+                cell3.innerHTML = reimbursement.reimb_submitted;
+                row.appendChild(cell3);
 
-                    //reimburse resolved
-                    let cell4 = document.createElement("td");
-                    if(reimbursement.reimb_resolved){
-                        cell4.innerHTML = reimbursement.reimb_resolved;
-                    } else {
-                        cell4.innerHTML = "UNRESOLVED";
-                    }
-                    row.appendChild(cell4);
-
-                    //reimb description
-                    let cell5 = document.createElement("td");
-                    cell5.innerHTML = reimbursement.reimb_description;
-                    row.appendChild(cell5);
-
-                    //reimb author
-                    let cell6 = document.createElement("td");
-                    cell6.innerHTML = reimbursement.reimb_author;
-                    row.appendChild(cell6);
-
-                    //reimburse status
-                    let cell7 = document.createElement("td");
-                    cell7.innerHTML = reimbursement.reimb_status_id;
-                    row.appendChild(cell7);
-
-                    //reimburse type
-                    let cell8 = document.createElement("td");
-                    cell8.innerHTML = reimbursement.reimb_type_id;
-                    row.appendChild(cell8);
-
-                    document.getElementById("reimbursementBody").appendChild(row);
+                //reimburse resolved
+                let cell4 = document.createElement("td");
+                if(reimbursement.reimb_resolved){
+                    cell4.innerHTML = reimbursement.reimb_resolved;
+                } else {
+                    cell4.innerHTML = "UNRESOLVED";
                 }
-            }
-        break;
+                row.appendChild(cell4);
 
-        case "PENDING":
+                //reimb description
+                let cell5 = document.createElement("td");
+                cell5.innerHTML = reimbursement.reimb_description;
+                row.appendChild(cell5);
 
-            removeAllChildNodes(document.getElementById("reimbursementBody"));
+                //reimb author
+                let cell6 = document.createElement("td");
+                cell6.innerHTML = reimbursement.reimb_author;
+                row.appendChild(cell6);
 
-            let status = {
-                reimb_id:0,
-                status_id:1,
-                user_id:0
-            }
+                //reimburse status
+                let cell7 = document.createElement("td");
+                cell7.innerHTML = reimbursement.reimb_status_id;
+                row.appendChild(cell7);
 
-            let response = await fetch(url + "reimbursements/status",
-            {
-                method:"POST",
-                body: JSON.stringify(status),
-                credentials:"include"
-            });
+                //reimburse type
+                let cell8 = document.createElement("td");
+                cell8.innerHTML = reimbursement.reimb_type_id;
+                row.appendChild(cell8);
 
-            console.log(response);
+                document.getElementById("reimbursementBody").appendChild(row);                }
+        }
+    } else if(status === "PENDING"){
 
-            if(response.status === 200){
+        while(myNode.lastElementChild){
+            myNode.removeChild(myNode.lastElementChild);
+        }
+
+        let status = {
+            reimb_id:0,
+            status_id:1,
+            user_id:0
+        }
+
+        response = await fetch(url + "reimbursements/status",
+        {
+            method:"POST",
+            body: JSON.stringify(status),
+            credentials:"include"
+        });
+
+        console.log(response);
+
+        if(response.status === 200){
             
-                let data = await response.json();
+            let data = await response.json();
 
-                for(let reimbursement of data){
+            for(let reimbursement of data){
 
-                    let row = document.createElement("tr");
+                let row = document.createElement("tr");
 
-                    //reimburse id
-                    let cell = document.createElement("td");
-                    cell.innerHTML = reimbursement.reimb_id;
-                    row.appendChild(cell);
+                //reimburse id
+                let cell = document.createElement("td");
+                cell.innerHTML = reimbursement.reimb_id;
+                row.appendChild(cell);
 
-                    //reimburse amount
-                    let cell2 = document.createElement("td");
-                    cell2.innerHTML = reimbursement.reimb_amount;
-                    row.appendChild(cell2);
+                //reimburse amount
+                let cell2 = document.createElement("td");
+                cell2.innerHTML = reimbursement.reimb_amount;
+                row.appendChild(cell2);
 
-                    //reimburse submitted
-                    let cell3 = document.createElement("td");
-                    cell3.innerHTML = reimbursement.reimb_submitted;
-                    row.appendChild(cell3);
+                //reimburse submitted
+                let cell3 = document.createElement("td");
+                cell3.innerHTML = reimbursement.reimb_submitted;
+                row.appendChild(cell3);
 
-                    //reimburse resolved
-                    let cell4 = document.createElement("td");
-                    if(reimbursement.reimb_resolved){
-                        cell4.innerHTML = reimbursement.reimb_resolved;
-                    } else {
-                        cell4.innerHTML = "UNRESOLVED";
-                    }
-                    row.appendChild(cell4);
-
-                    //reimb description
-                    let cell5 = document.createElement("td");
-                    cell5.innerHTML = reimbursement.reimb_description;
-                    row.appendChild(cell5);
-
-                    //reimb author
-                    let cell6 = document.createElement("td");
-                    cell6.innerHTML = reimbursement.reimb_author;
-                    row.appendChild(cell6);
-
-                    //reimburse status
-                    let cell7 = document.createElement("td");
-                    cell7.innerHTML = reimbursement.reimb_status_id;
-                    row.appendChild(cell7);
-
-                    //reimburse type
-                    let cell8 = document.createElement("td");
-                    cell8.innerHTML = reimbursement.reimb_type_id;
-                    row.appendChild(cell8);
-
-                    document.getElementById("reimbursementBody").appendChild(row);
+                //reimburse resolved
+                let cell4 = document.createElement("td");
+                if(reimbursement.reimb_resolved){
+                    cell4.innerHTML = reimbursement.reimb_resolved;
+                } else {
+                    cell4.innerHTML = "UNRESOLVED";
                 }
+                row.appendChild(cell4);
+
+                //reimb description
+                let cell5 = document.createElement("td");
+                cell5.innerHTML = reimbursement.reimb_description;
+                row.appendChild(cell5);
+
+                //reimb author
+                let cell6 = document.createElement("td");
+                cell6.innerHTML = reimbursement.reimb_author;
+                row.appendChild(cell6);
+
+                //reimburse status
+                let cell7 = document.createElement("td");
+                cell7.innerHTML = reimbursement.reimb_status_id;
+                row.appendChild(cell7);
+
+                //reimburse type
+                let cell8 = document.createElement("td");
+                cell8.innerHTML = reimbursement.reimb_type_id;
+                row.appendChild(cell8);
+
+                document.getElementById("reimbursementBody").appendChild(row);
             }
+                
+        }
 
-        break;
+    } else if(status === "GRANTED"){
 
-        case "GRANTED":
+        while(myNode.lastElementChild){
+            myNode.removeChild(myNode.lastElementChild);
+        }
 
-            removeAllChildNodes(document.getElementById("reimbursementBody"));
+        status = {
+            reimb_id:0,
+            status_id:2,
+            user_id:0
+        }
 
-            let status = {
-                reimb_id:0,
-                status_id:2,
-                user_id:0
-            }
+        response = await fetch(url + "reimbursements/status",
+        {
+            method:"POST",
+            body: JSON.stringify(status),
+            credentials:"include"
+        });
 
-            let response = await fetch(url + "reimbursements/status",
-            {
-                method:"POST",
-                body: JSON.stringify(status),
-                credentials:"include"
-            });
+        console.log(response);
 
-            console.log(response);
-
-            if(response.status === 200){
+        if(response.status === 200){
             
-                let data = await response.json();
+            let data = await response.json();
 
-                for(let reimbursement of data){
+            for(let reimbursement of data){
 
-                    let row = document.createElement("tr");
+                let row = document.createElement("tr");
 
-                    //reimburse id
-                    let cell = document.createElement("td");
-                    cell.innerHTML = reimbursement.reimb_id;
-                    row.appendChild(cell);
+                //reimburse id
+                let cell = document.createElement("td");
+                cell.innerHTML = reimbursement.reimb_id;
+                row.appendChild(cell);
 
-                    //reimburse amount
-                    let cell2 = document.createElement("td");
-                    cell2.innerHTML = reimbursement.reimb_amount;
-                    row.appendChild(cell2);
+                //reimburse amount
+                let cell2 = document.createElement("td");
+                cell2.innerHTML = reimbursement.reimb_amount;
+                row.appendChild(cell2);
 
-                    //reimburse submitted
-                    let cell3 = document.createElement("td");
-                    cell3.innerHTML = reimbursement.reimb_submitted;
-                    row.appendChild(cell3);
+                //reimburse submitted
+                let cell3 = document.createElement("td");
+                cell3.innerHTML = reimbursement.reimb_submitted;
+                row.appendChild(cell3);
 
-                    //reimburse resolved
-                    let cell4 = document.createElement("td");
-                    if(reimbursement.reimb_resolved){
-                        cell4.innerHTML = reimbursement.reimb_resolved;
-                    } else {
-                        cell4.innerHTML = "UNRESOLVED";
-                    }
-                    row.appendChild(cell4);
-
-                    //reimb description
-                    let cell5 = document.createElement("td");
-                    cell5.innerHTML = reimbursement.reimb_description;
-                    row.appendChild(cell5);
-
-                    //reimb author
-                    let cell6 = document.createElement("td");
-                    cell6.innerHTML = reimbursement.reimb_author;
-                    row.appendChild(cell6);
-
-                    //reimburse status
-                    let cell7 = document.createElement("td");
-                    cell7.innerHTML = reimbursement.reimb_status_id;
-                    row.appendChild(cell7);
-
-                    //reimburse type
-                    let cell8 = document.createElement("td");
-                    cell8.innerHTML = reimbursement.reimb_type_id;
-                    row.appendChild(cell8);
-
-                    document.getElementById("reimbursementBody").appendChild(row);
+                //reimburse resolved
+                let cell4 = document.createElement("td");
+                if(reimbursement.reimb_resolved){
+                    cell4.innerHTML = reimbursement.reimb_resolved;
+                } else {
+                    cell4.innerHTML = "UNRESOLVED";
                 }
+                row.appendChild(cell4);
+
+                //reimb description
+                let cell5 = document.createElement("td");
+                cell5.innerHTML = reimbursement.reimb_description;
+                row.appendChild(cell5);
+
+                //reimb author
+                let cell6 = document.createElement("td");
+                cell6.innerHTML = reimbursement.reimb_author;
+                row.appendChild(cell6);
+
+                //reimburse status
+                let cell7 = document.createElement("td");
+                cell7.innerHTML = reimbursement.reimb_status_id;
+                row.appendChild(cell7);
+
+                //reimburse type
+                let cell8 = document.createElement("td");
+                cell8.innerHTML = reimbursement.reimb_type_id;
+                row.appendChild(cell8);
+
+                document.getElementById("reimbursementBody").appendChild(row);
             }
+                
+        }
 
-        break;
+    } else if(status === "DENIED"){
 
-        case "DENIED":
+        while(myNode.lastElementChild){
+            myNode.removeChild(myNode.lastElementChild);
+        }
 
-            removeAllChildNodes(document.getElementById("reimbursementBody"));
+        status = {
+            reimb_id:0,
+            status_id:3,
+            user_id:0
+        }
 
-            let status = {
-                reimb_id:0,
-                status_id:3,
-                user_id:0
-            }
+        response = await fetch(url + "reimbursements/status",
+        {
+            method:"POST",
+            body: JSON.stringify(status),
+            credentials:"include"
+        });
 
-            let response = await fetch(url + "reimbursements/status",
-            {
-                method:"POST",
-                body: JSON.stringify(status),
-                credentials:"include"
-            });
+        console.log(response);
 
-            console.log(response);
-
-            if(response.status === 200){
+        if(response.status === 200){
             
-                let data = await response.json();
+            let data = await response.json();
 
-                for(let reimbursement of data){
+            for(let reimbursement of data){
 
-                    let row = document.createElement("tr");
+                let row = document.createElement("tr");
 
-                    //reimburse id
-                    let cell = document.createElement("td");
-                    cell.innerHTML = reimbursement.reimb_id;
-                    row.appendChild(cell);
+                //reimburse id
+                let cell = document.createElement("td");
+                cell.innerHTML = reimbursement.reimb_id;
+                row.appendChild(cell);
 
-                    //reimburse amount
-                    let cell2 = document.createElement("td");
-                    cell2.innerHTML = reimbursement.reimb_amount;
-                    row.appendChild(cell2);
+                //reimburse amount
+                let cell2 = document.createElement("td");
+                cell2.innerHTML = reimbursement.reimb_amount;
+                row.appendChild(cell2);
 
-                    //reimburse submitted
-                    let cell3 = document.createElement("td");
-                    cell3.innerHTML = reimbursement.reimb_submitted;
-                    row.appendChild(cell3);
+                //reimburse submitted
+                let cell3 = document.createElement("td");
+                cell3.innerHTML = reimbursement.reimb_submitted;
+                row.appendChild(cell3);
 
-                    //reimburse resolved
-                    let cell4 = document.createElement("td");
-                    if(reimbursement.reimb_resolved){
-                        cell4.innerHTML = reimbursement.reimb_resolved;
-                    } else {
-                        cell4.innerHTML = "UNRESOLVED";
-                    }
-                    row.appendChild(cell4);
-
-                    //reimb description
-                    let cell5 = document.createElement("td");
-                    cell5.innerHTML = reimbursement.reimb_description;
-                    row.appendChild(cell5);
-
-                    //reimb author
-                    let cell6 = document.createElement("td");
-                    cell6.innerHTML = reimbursement.reimb_author;
-                    row.appendChild(cell6);
-
-                    //reimburse status
-                    let cell7 = document.createElement("td");
-                    cell7.innerHTML = reimbursement.reimb_status_id;
-                    row.appendChild(cell7);
-
-                    //reimburse type
-                    let cell8 = document.createElement("td");
-                    cell8.innerHTML = reimbursement.reimb_type_id;
-                    row.appendChild(cell8);
-
-                    document.getElementById("reimbursementBody").appendChild(row);
+                //reimburse resolved
+                let cell4 = document.createElement("td");
+                if(reimbursement.reimb_resolved){
+                    cell4.innerHTML = reimbursement.reimb_resolved;
+                } else {
+                    cell4.innerHTML = "UNRESOLVED";
                 }
-            }
+                row.appendChild(cell4);
 
-        break;
+                //reimb description
+                let cell5 = document.createElement("td");
+                cell5.innerHTML = reimbursement.reimb_description;
+                row.appendChild(cell5);
+
+                //reimb author
+                let cell6 = document.createElement("td");
+                cell6.innerHTML = reimbursement.reimb_author;
+                row.appendChild(cell6);
+
+                //reimburse status
+                let cell7 = document.createElement("td");
+                cell7.innerHTML = reimbursement.reimb_status_id;
+                row.appendChild(cell7);
+
+                //reimburse type
+                let cell8 = document.createElement("td");
+                cell8.innerHTML = reimbursement.reimb_type_id;
+                row.appendChild(cell8);
+
+                document.getElementById("reimbursementBody").appendChild(row);
+            }
+        }
     }
 }
+
 
 async function updateReimburseFunc() {
 
@@ -399,15 +339,15 @@ async function updateReimburseFunc() {
 
     if(response.status === 200){
         console.log(response);
-        location.reload;
+        location.reload();
     } else {
         console.log("update failed");
     }
 
 }
 
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
+function logoutFunc(){
+    sessionStorage.setItem("roleId", 0);
+    sessionStorage.setItem("userId", 0);
+    window.location.replace("login.html");
+  }

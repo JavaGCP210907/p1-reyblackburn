@@ -11,9 +11,8 @@
 </head>
 <body id="employeeBody">
     <div class="container" id="fullcontainer">
-
-    <!-- Need to make a table for reimbursements -->
-    <div id="table-row" class="row">
+        <!-- Need to make a table for reimbursements -->
+        <div id="table-row" class="row">
         <!--Then we need rows inside the container to organize the data-->
         <table id="reimbursementTable" class="table table-hover table-bordered table-dark">
             <thead id="reimbursementHead">
@@ -30,8 +29,9 @@
                 <!--Leave blank and will be filled in by JS when data comes in-->
             </tbody>
         </table>
-    </div>
-    <div id="addReimbursement" class="row">
+        </div>
+
+        <div id="addReimbursement" class="row">
 
         <input type="text" id="amount" placeholder="Enter amount for Reimbursement" class="col-sm-4">
         <input type="text" id="description" placeholder="Please enter a description for your Reimbursement" class="col-sm-8">
@@ -45,7 +45,11 @@
 
         <button id="addReimbursementButton" class="btn btn-dark">Submit Reimbursement</button>
 
-    </div>
+        </div>
+    
+        <div id="logout">
+            <button id="logoutBtn" class="btn btn-dark">Logout</button>
+        </div>
     </div>
     <script src="Employee.js"></script>
 </body>

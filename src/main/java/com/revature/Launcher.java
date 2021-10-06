@@ -43,7 +43,7 @@ public class Launcher {
 		
 		app.put("/reimbursements/update", rc.updateReimbursementStatusHandler);
 		
-		app.get("reimbursements/status", rc.getReimbursementByStatusHandler);
+		app.post("reimbursements/status", rc.getReimbursementByStatusHandler);
 
 	}
 
