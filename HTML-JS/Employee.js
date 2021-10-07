@@ -3,12 +3,13 @@ const url = "http://localhost:8090/";
 let roleId = sessionStorage.getItem("roleId");
 let userId = sessionStorage.getItem("userId");
 
-console.log(roleId);
-console.log(userId);
+if(roleId != 1 || roleId !=2){
+    window.location.replace("login.html")
+}
 
 document.getElementById("employeeBody").addEventListener("load", getReimbursement());
 document.getElementById("addReimbursementButton").addEventListener("click", addReimburseFunc);
-
+document.getElementById("logoutBtn").addEventListener("click", logoutFunc);
 
 async function getReimbursement() {
 
@@ -25,13 +26,11 @@ async function getReimbursement() {
         credentials: "include"
     });
 
-    console.log(response);
+    console.log(response.status);
 
     if(response.status === 200){
 
         let data = await response.json();
-
-        console.log(data);
 
         for(let reimbursement of data){
 
@@ -39,7 +38,7 @@ async function getReimbursement() {
             
             //amount
             let cell = document.createElement("td");
-            cell.innerHTML = reimbursement.reimb_amount;
+            cell.innerHTML = "$" +reimbursement.reimb_amount;
             row.appendChild(cell);
 
             //submitted
@@ -131,4 +130,7 @@ async function getReimbursement() {
 
   }
 
-  
+function logoutFunc(){
+    sessionStorage.clear();
+    window.location.replace("login.html");
+}

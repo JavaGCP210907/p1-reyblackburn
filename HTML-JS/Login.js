@@ -60,7 +60,7 @@ async function loginFunc() {
         }
 
     } else {
-        document.getElementById("login-row").innerText="Login failed! Please try again";
+        document.getElementById("login-row").appendChild("span");
     }
 
 }

@@ -3,8 +3,13 @@ const url = "http://localhost:8090/";
 let roleId = sessionStorage.getItem("roleId");
 let userId = sessionStorage.getItem("userId");
 
-document.getElementById("statusFilter").addEventListener("onselect",filterReimburseFunc());
+document.getElementById("statusFilter").addEventListener("onchange",filterReimburseFunc());
 document.getElementById("updateReimbursementButton").addEventListener("click", updateReimburseFunc);
+document.getElementById("logoutBtn").addEventListener("click", logoutFunc);
+
+if(roleId != 2){
+    window.location.replace("employee.html");
+}
 
 async function filterReimburseFunc(){
     let status = document.getElementById("statusFilter").value;
@@ -35,7 +40,7 @@ async function filterReimburseFunc(){
 
                 //reimburse amount
                 let cell2 = document.createElement("td");
-                cell2.innerHTML = reimbursement.reimb_amount;
+                cell2.innerHTML = "$" + reimbursement.reimb_amount;
                 row.appendChild(cell2);
 
                 //reimburse submitted
@@ -105,12 +110,12 @@ async function filterReimburseFunc(){
 
                 //reimburse id
                 let cell = document.createElement("td");
-                cell.innerHTML = reimbursement.reimb_id;
+                cell.innerHTML =  reimbursement.reimb_id;
                 row.appendChild(cell);
 
                 //reimburse amount
                 let cell2 = document.createElement("td");
-                cell2.innerHTML = reimbursement.reimb_amount;
+                cell2.innerHTML = "$" + reimbursement.reimb_amount;
                 row.appendChild(cell2);
 
                 //reimburse submitted
@@ -188,7 +193,7 @@ async function filterReimburseFunc(){
 
                 //reimburse amount
                 let cell2 = document.createElement("td");
-                cell2.innerHTML = reimbursement.reimb_amount;
+                cell2.innerHTML = "$" + reimbursement.reimb_amount;
                 row.appendChild(cell2);
 
                 //reimburse submitted
@@ -266,7 +271,7 @@ async function filterReimburseFunc(){
 
                 //reimburse amount
                 let cell2 = document.createElement("td");
-                cell2.innerHTML = reimbursement.reimb_amount;
+                cell2.innerHTML = "$" + reimbursement.reimb_amount;
                 row.appendChild(cell2);
 
                 //reimburse submitted
@@ -345,3 +350,7 @@ async function updateReimburseFunc() {
 
 }
 
+function logoutFunc(){
+    sessionStorage.clear();
+    window.location.replace("login.html");
+}
