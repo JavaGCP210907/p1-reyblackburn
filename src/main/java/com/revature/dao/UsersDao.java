@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.revature.models.Users;
 import com.revature.utils.ConnectionUtil;
 
 public class UsersDao implements UsersDaoInterface {
@@ -90,6 +91,42 @@ public class UsersDao implements UsersDaoInterface {
 		
 	return 0;
 		
+	}
+
+	@Override
+	public Users getUserById(int id) {
+		
+		try(Connection conn = ConnectionUtil.getConnection()){
+			
+			String sql = "select * from users where users_id = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				
+				Users u = new Users(
+						rs.getInt("users_id"),
+						rs.getString("username"),
+						rs.getString("password"),
+						rs.getString("first_name"),
+						rs.getString("last_name"),
+						rs.getString("user_email"),
+						null
+						);
+				
+				return u;
+				
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

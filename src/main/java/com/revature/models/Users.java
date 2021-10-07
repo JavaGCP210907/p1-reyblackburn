@@ -8,7 +8,7 @@ public class Users {
 	private String first_name;
 	private String last_name;
 	private String user_email;
-	private int user_role_id_fk;
+	private UserRoles user_role_id_fk;
 	
 	public Users() {
 		super();
@@ -16,7 +16,7 @@ public class Users {
 	}
 
 	public Users(int users_id, String username, String password, String first_name, String last_name, String user_email,
-			int user_role_id_fk) {
+			UserRoles user_role_id_fk) {
 		super();
 		this.users_id = users_id;
 		this.username = username;
@@ -28,7 +28,7 @@ public class Users {
 	}
 
 	public Users(String username, String password, String first_name, String last_name, String user_email,
-			int user_role_id_fk) {
+			UserRoles user_role_id_fk) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -53,7 +53,7 @@ public class Users {
 		result = prime * result + ((last_name == null) ? 0 : last_name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((user_email == null) ? 0 : user_email.hashCode());
-		result = prime * result + user_role_id_fk;
+		result = prime * result + ((user_role_id_fk == null) ? 0 : user_role_id_fk.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + users_id;
 		return result;
@@ -88,7 +88,10 @@ public class Users {
 				return false;
 		} else if (!user_email.equals(other.user_email))
 			return false;
-		if (user_role_id_fk != other.user_role_id_fk)
+		if (user_role_id_fk == null) {
+			if (other.user_role_id_fk != null)
+				return false;
+		} else if (!user_role_id_fk.equals(other.user_role_id_fk))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -148,14 +151,12 @@ public class Users {
 		this.user_email = user_email;
 	}
 
-	public int getUser_role_id_fk() {
+	public UserRoles getUser_role_id_fk() {
 		return user_role_id_fk;
 	}
 
-	public void setUser_role_id_fk(int user_role_id_fk) {
+	public void setUser_role_id_fk(UserRoles user_role_id_fk) {
 		this.user_role_id_fk = user_role_id_fk;
 	}
 	
-	
-
 }

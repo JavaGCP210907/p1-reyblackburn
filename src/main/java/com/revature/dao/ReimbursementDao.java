@@ -14,6 +14,10 @@ import com.revature.models.Reimbursement;
 import com.revature.utils.ConnectionUtil;
 
 public class ReimbursementDao implements ReimbursementDaoInterface {
+	
+	UsersDao uDao = new UsersDao();
+	ReimbursementStatusDao rsDao = new ReimbursementStatusDao();
+	ReimbursementTypeDao rtDao = new ReimbursementTypeDao();
 
 	@Override
 	public void addReimbursement(Reimbursement reimburse) {
@@ -28,9 +32,9 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 			ps.setInt(1, reimburse.getReimb_amount());
 			ps.setString(2, reimburse.getReimb_description());
 			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setInt(4, reimburse.getReimb_author());
-			ps.setInt(5, reimburse.getReimb_status_id());
-			ps.setInt(5, reimburse.getReimb_type_id());
+			ps.setInt(4, reimburse.getReimb_author().getUsers_id());
+			ps.setInt(5, reimburse.getReimb_status_id().getStatus_id());
+			ps.setInt(5, reimburse.getReimb_type_id().getType_id());
 			
 			ps.executeUpdate();					
 					
@@ -57,17 +61,29 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 			
 			while(rs.next()) {
 				
-				Reimbursement r = new Reimbursement(
-						rs.getInt("reimb_id"),
-						rs.getInt("reimb_amount"),
-						rs.getString("reimb_submitted"),
-						rs.getString("reimb_resolved"),
-						rs.getString("reimb_description"),
-						rs.getInt("reimb_author"),
-						rs.getInt("reimb_resolver"),
-						rs.getInt("reimb_status_id"),
-						rs.getInt("reimb_type_id")
-						);
+				Reimbursement r = new Reimbursement();
+				
+				r.setReimb_id(rs.getInt("reimb_id"));
+				r.setReimb_amount(rs.getInt("reimb_amount"));
+				r.setReimb_submitted(rs.getString("reimb_submitted"));
+				r.setReimb_resolved(rs.getString("reimb_resolved"));
+				r.setReimb_description(rs.getString("reimb_description"));
+				
+				if(rs.getInt("reimb_author") != 0) {
+					r.setReimb_author(uDao.getUserById(rs.getInt("reimb_author")));
+				}
+				
+				if(rs.getInt("reimb_resolver") != 0) {
+					r.setReimb_resolver(uDao.getUserById(rs.getInt("reimb_resolver")));
+				}
+				
+				if(rs.getInt("reimb_status_id") != 0) {
+					r.setReimb_status_id(rsDao.getReimbursementStatusById(rs.getInt("reimb_status_id")));
+				}
+				
+				if(rs.getInt("reimb_type_id") != 0) {
+					r.setReimb_type_id(rtDao.getReimbursementTypeById(rs.getInt("reimb_type_id")));
+				}
 				
 				reimbursementList.add(r);
 			}
@@ -118,17 +134,29 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 			
 			while(rs.next()) {
 				
-				Reimbursement r = new Reimbursement(
-						rs.getInt("reimb_id"),
-						rs.getInt("reimb_amount"),
-						rs.getString("reimb_submitted"),
-						rs.getString("reimb_resolved"),
-						rs.getString("reimb_description"),
-						rs.getInt("reimb_author"),
-						rs.getInt("reimb_resolver"),
-						rs.getInt("reimb_status_id"),
-						rs.getInt("reimb_type_id")
-						);
+				Reimbursement r = new Reimbursement();
+				
+				r.setReimb_id(rs.getInt("reimb_id"));
+				r.setReimb_amount(rs.getInt("reimb_amount"));
+				r.setReimb_submitted(rs.getString("reimb_submitted"));
+				r.setReimb_resolved(rs.getString("reimb_resolved"));
+				r.setReimb_description(rs.getString("reimb_description"));
+				
+				if(rs.getInt("reimb_author") != 0) {
+					r.setReimb_author(uDao.getUserById(rs.getInt("reimb_author")));
+				}
+				
+				if(rs.getInt("reimb_resolver") != 0) {
+					r.setReimb_resolver(uDao.getUserById(rs.getInt("reimb_resolver")));
+				}
+				
+				if(rs.getInt("reimb_status_id") != 0) {
+					r.setReimb_status_id(rsDao.getReimbursementStatusById(rs.getInt("reimb_status_id")));
+				}
+				
+				if(rs.getInt("reimb_type_id") != 0) {
+					r.setReimb_type_id(rtDao.getReimbursementTypeById(rs.getInt("reimb_type_id")));
+				}
 				
 				reimbursementList.add(r);
 			}
@@ -149,7 +177,7 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "select * from reimbursements where reimb_author = ?";
+			String sql = "select * from reimbursements where reimb_author = ? order by reimb_id";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -161,17 +189,29 @@ public class ReimbursementDao implements ReimbursementDaoInterface {
 			
 			while(rs.next()) {
 				
-				Reimbursement r = new Reimbursement(
-						rs.getInt("reimb_id"),
-						rs.getInt("reimb_amount"),
-						rs.getString("reimb_submitted"),
-						rs.getString("reimb_resolved"),
-						rs.getString("reimb_description"),
-						rs.getInt("reimb_author"),
-						rs.getInt("reimb_resolver"),
-						rs.getInt("reimb_status_id"),
-						rs.getInt("reimb_type_id")
-						);
+				Reimbursement r = new Reimbursement();
+				
+				r.setReimb_id(rs.getInt("reimb_id"));
+				r.setReimb_amount(rs.getInt("reimb_amount"));
+				r.setReimb_submitted(rs.getString("reimb_submitted"));
+				r.setReimb_resolved(rs.getString("reimb_resolved"));
+				r.setReimb_description(rs.getString("reimb_description"));
+				
+				if(rs.getInt("reimb_author") != 0) {
+					r.setReimb_author(uDao.getUserById(rs.getInt("reimb_author")));
+				}
+				
+				if(rs.getInt("reimb_resolver") != 0) {
+					r.setReimb_resolver(uDao.getUserById(rs.getInt("reimb_resolver")));
+				}
+				
+				if(rs.getInt("reimb_status_id") != 0) {
+					r.setReimb_status_id(rsDao.getReimbursementStatusById(rs.getInt("reimb_status_id")));
+				}
+				
+				if(rs.getInt("reimb_type_id") != 0) {
+					r.setReimb_type_id(rtDao.getReimbursementTypeById(rs.getInt("reimb_type_id")));
+				}
 				
 				reimbursementList.add(r);
 			}

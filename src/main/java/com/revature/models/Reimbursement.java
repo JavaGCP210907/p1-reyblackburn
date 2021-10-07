@@ -7,10 +7,10 @@ public class Reimbursement {
 	private String reimb_submitted;
 	private String reimb_resolved;
 	private String reimb_description;
-	private int reimb_author;
-	private int reimb_resolver;
-	private int reimb_status_id;
-	private int reimb_type_id;
+	private Users reimb_author;
+	private Users reimb_resolver;
+	private ReimbursementStatus reimb_status_id;
+	private ReimbursementType reimb_type_id;
 	
 	public Reimbursement() {
 		super();
@@ -18,7 +18,7 @@ public class Reimbursement {
 	}
 
 	public Reimbursement(int reimb_id, int reimb_amount, String reimb_submitted, String reimb_resolved,
-			String reimb_description, int reimb_author, int reimb_resolver, int reimb_status_id, int reimb_type_id) {
+			String reimb_description, Users reimb_author, Users reimb_resolver, ReimbursementStatus reimb_status_id, ReimbursementType reimb_type_id) {
 		super();
 		this.reimb_id = reimb_id;
 		this.reimb_amount = reimb_amount;
@@ -32,7 +32,7 @@ public class Reimbursement {
 	}
 
 	public Reimbursement(int reimb_amount, String reimb_submitted, String reimb_resolved, String reimb_description,
-			int reimb_author, int reimb_resolver, int reimb_status_id, int reimb_type_id) {
+			Users reimb_author, Users reimb_resolver, ReimbursementStatus reimb_status_id, ReimbursementType reimb_type_id) {
 		super();
 		this.reimb_amount = reimb_amount;
 		this.reimb_submitted = reimb_submitted;
@@ -44,8 +44,8 @@ public class Reimbursement {
 		this.reimb_type_id = reimb_type_id;
 	}
 
-	public Reimbursement(int reimb_amount, String reimb_submitted, String reimb_description, int reimb_author,
-			int reimb_status_id, int reimb_type_id) {
+	public Reimbursement(int reimb_amount, String reimb_submitted, String reimb_description, Users reimb_author,
+			ReimbursementStatus reimb_status_id, ReimbursementType reimb_type_id) {
 		super();
 		this.reimb_amount = reimb_amount;
 		this.reimb_submitted = reimb_submitted;
@@ -68,14 +68,14 @@ public class Reimbursement {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + reimb_amount;
-		result = prime * result + reimb_author;
+		result = prime * result + ((reimb_author == null) ? 0 : reimb_author.hashCode());
 		result = prime * result + ((reimb_description == null) ? 0 : reimb_description.hashCode());
 		result = prime * result + reimb_id;
 		result = prime * result + ((reimb_resolved == null) ? 0 : reimb_resolved.hashCode());
-		result = prime * result + reimb_resolver;
-		result = prime * result + reimb_status_id;
+		result = prime * result + ((reimb_resolver == null) ? 0 : reimb_resolver.hashCode());
+		result = prime * result + ((reimb_status_id == null) ? 0 : reimb_status_id.hashCode());
 		result = prime * result + ((reimb_submitted == null) ? 0 : reimb_submitted.hashCode());
-		result = prime * result + reimb_type_id;
+		result = prime * result + ((reimb_type_id == null) ? 0 : reimb_type_id.hashCode());
 		return result;
 	}
 
@@ -90,7 +90,10 @@ public class Reimbursement {
 		Reimbursement other = (Reimbursement) obj;
 		if (reimb_amount != other.reimb_amount)
 			return false;
-		if (reimb_author != other.reimb_author)
+		if (reimb_author == null) {
+			if (other.reimb_author != null)
+				return false;
+		} else if (!reimb_author.equals(other.reimb_author))
 			return false;
 		if (reimb_description == null) {
 			if (other.reimb_description != null)
@@ -104,16 +107,25 @@ public class Reimbursement {
 				return false;
 		} else if (!reimb_resolved.equals(other.reimb_resolved))
 			return false;
-		if (reimb_resolver != other.reimb_resolver)
+		if (reimb_resolver == null) {
+			if (other.reimb_resolver != null)
+				return false;
+		} else if (!reimb_resolver.equals(other.reimb_resolver))
 			return false;
-		if (reimb_status_id != other.reimb_status_id)
+		if (reimb_status_id == null) {
+			if (other.reimb_status_id != null)
+				return false;
+		} else if (!reimb_status_id.equals(other.reimb_status_id))
 			return false;
 		if (reimb_submitted == null) {
 			if (other.reimb_submitted != null)
 				return false;
 		} else if (!reimb_submitted.equals(other.reimb_submitted))
 			return false;
-		if (reimb_type_id != other.reimb_type_id)
+		if (reimb_type_id == null) {
+			if (other.reimb_type_id != null)
+				return false;
+		} else if (!reimb_type_id.equals(other.reimb_type_id))
 			return false;
 		return true;
 	}
@@ -158,37 +170,36 @@ public class Reimbursement {
 		this.reimb_description = reimb_description;
 	}
 
-	public int getReimb_author() {
+	public Users getReimb_author() {
 		return reimb_author;
 	}
 
-	public void setReimb_author(int reimb_author) {
+	public void setReimb_author(Users reimb_author) {
 		this.reimb_author = reimb_author;
 	}
 
-	public int getReimb_resolver() {
+	public Users getReimb_resolver() {
 		return reimb_resolver;
 	}
 
-	public void setReimb_resolver(int reimb_resolver) {
+	public void setReimb_resolver(Users reimb_resolver) {
 		this.reimb_resolver = reimb_resolver;
 	}
 
-	public int getReimb_status_id() {
+	public ReimbursementStatus getReimb_status_id() {
 		return reimb_status_id;
 	}
 
-	public void setReimb_status_id(int reimb_status_id) {
+	public void setReimb_status_id(ReimbursementStatus reimb_status_id) {
 		this.reimb_status_id = reimb_status_id;
 	}
 
-	public int getReimb_type_id() {
+	public ReimbursementType getReimb_type_id() {
 		return reimb_type_id;
 	}
 
-	public void setReimb_type_id(int reimb_type_id) {
+	public void setReimb_type_id(ReimbursementType reimb_type_id) {
 		this.reimb_type_id = reimb_type_id;
-	}
-	
+	}	
 	
 }
