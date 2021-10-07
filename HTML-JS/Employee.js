@@ -63,26 +63,12 @@ async function getReimbursement() {
 
             //status
             let cell5 = document.createElement("td");
-            if(reimbursement.reimb_status_id == 1){
-                cell5.innerHTML = "PENDING";
-            } else if(reimbursement.reimb_status_id == 2){
-                cell5.innerHTML = "GRANTED";
-            } else if (reimbursement.reimb_status_id == 3){
-                cell5.innerHTML = "DENIED";
-            }
+            cell5.innerHTML = reimbursement.reimb_status_id.status;
             row.appendChild(cell5);
 
             //type
             let cell6 = document.createElement("td");
-            if(reimbursement.reimb_type_id ==1){
-                cell6.innerHTML = "LODGING";
-            } else if(reimbursement.reimb_type_id ==2){
-                cell6.innerHTML = "TRAVEL";
-            } else if(reimbursement.reimb_type_id ==3){
-                cell6.innerHTML = "FOOD";
-            } else if(reimbursement.reimb_type_id ==4){
-                cell6.innerHTML = "OTHER";
-            }
+            cell6.innerHTML = reimbursement.reimb_type_id.type;
             row.appendChild(cell6);
 
             document.getElementById("reimbursementBody").appendChild(row);
@@ -113,9 +99,17 @@ async function getReimbursement() {
      let reimburse = {
          reimb_amount:amount,
          reimb_description:description,
-         reimb_author:userId,
-         reimb_status_id:1,
-         reimb_type_id:typeId
+         reimb_author:{
+             users_id:userId
+         },
+         reimb_status_id:{
+             status_id:1,
+             status: "PENDING"
+         },
+         reimb_type_id:{
+             type_id:typeId,
+             status:type
+         }
      }
 
      console.log(reimburse);

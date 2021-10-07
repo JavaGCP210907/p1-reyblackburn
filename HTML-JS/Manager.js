@@ -5,7 +5,6 @@ let userId = sessionStorage.getItem("userId");
 
 document.getElementById("statusFilter").addEventListener("onselect",filterReimburseFunc());
 document.getElementById("updateReimbursementButton").addEventListener("click", updateReimburseFunc);
-document.getElementById("logoutBtn").addEventListener("click", logoutFunc());
 
 async function filterReimburseFunc(){
     let status = document.getElementById("statusFilter").value;
@@ -60,17 +59,17 @@ async function filterReimburseFunc(){
 
                 //reimb author
                 let cell6 = document.createElement("td");
-                cell6.innerHTML = reimbursement.reimb_author;
+                cell6.innerHTML = reimbursement.reimb_author.first_name + " " + reimbursement.reimb_author.last_name;
                 row.appendChild(cell6);
 
                 //reimburse status
                 let cell7 = document.createElement("td");
-                cell7.innerHTML = reimbursement.reimb_status_id;
+                cell7.innerHTML = reimbursement.reimb_status_id.status;
                 row.appendChild(cell7);
 
                 //reimburse type
                 let cell8 = document.createElement("td");
-                cell8.innerHTML = reimbursement.reimb_type_id;
+                cell8.innerHTML = reimbursement.reimb_type_id.type;
                 row.appendChild(cell8);
 
                 document.getElementById("reimbursementBody").appendChild(row);                }
@@ -135,17 +134,17 @@ async function filterReimburseFunc(){
 
                 //reimb author
                 let cell6 = document.createElement("td");
-                cell6.innerHTML = reimbursement.reimb_author;
+                cell6.innerHTML = reimbursement.reimb_author.first_name + " " + reimbursement.reimb_author.last_name;
                 row.appendChild(cell6);
 
                 //reimburse status
                 let cell7 = document.createElement("td");
-                cell7.innerHTML = reimbursement.reimb_status_id;
+                cell7.innerHTML = reimbursement.reimb_status_id.status;
                 row.appendChild(cell7);
 
                 //reimburse type
                 let cell8 = document.createElement("td");
-                cell8.innerHTML = reimbursement.reimb_type_id;
+                cell8.innerHTML = reimbursement.reimb_type_id.type;
                 row.appendChild(cell8);
 
                 document.getElementById("reimbursementBody").appendChild(row);
@@ -213,17 +212,17 @@ async function filterReimburseFunc(){
 
                 //reimb author
                 let cell6 = document.createElement("td");
-                cell6.innerHTML = reimbursement.reimb_author;
+                cell6.innerHTML = reimbursement.reimb_author.first_name + " " + reimbursement.reimb_author.last_name;
                 row.appendChild(cell6);
 
                 //reimburse status
                 let cell7 = document.createElement("td");
-                cell7.innerHTML = reimbursement.reimb_status_id;
+                cell7.innerHTML = reimbursement.reimb_status_id.status;
                 row.appendChild(cell7);
 
                 //reimburse type
                 let cell8 = document.createElement("td");
-                cell8.innerHTML = reimbursement.reimb_type_id;
+                cell8.innerHTML = reimbursement.reimb_type_id.type;
                 row.appendChild(cell8);
 
                 document.getElementById("reimbursementBody").appendChild(row);
@@ -291,17 +290,17 @@ async function filterReimburseFunc(){
 
                 //reimb author
                 let cell6 = document.createElement("td");
-                cell6.innerHTML = reimbursement.reimb_author;
+                cell6.innerHTML = reimbursement.reimb_author.first_name + " " + reimbursement.reimb_author.last_name;
                 row.appendChild(cell6);
 
                 //reimburse status
                 let cell7 = document.createElement("td");
-                cell7.innerHTML = reimbursement.reimb_status_id;
+                cell7.innerHTML = reimbursement.reimb_status_id.status;
                 row.appendChild(cell7);
 
                 //reimburse type
                 let cell8 = document.createElement("td");
-                cell8.innerHTML = reimbursement.reimb_type_id;
+                cell8.innerHTML = reimbursement.reimb_type_id.type;
                 row.appendChild(cell8);
 
                 document.getElementById("reimbursementBody").appendChild(row);
@@ -346,8 +345,3 @@ async function updateReimburseFunc() {
 
 }
 
-function logoutFunc(){
-    sessionStorage.setItem("roleId", 0);
-    sessionStorage.setItem("userId", 0);
-    window.location.replace("login.html");
-  }

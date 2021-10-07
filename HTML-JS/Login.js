@@ -40,8 +40,8 @@ async function loginFunc() {
             credentials: "include"
         });
 
-        console.log(roleIdResponse);
-        console.log(userIdResponse);
+        console.log(roleIdResponse.status);
+        console.log(userIdResponse.value);
 
         if(roleIdResponse.status === 200){
             roleId = await roleIdResponse.json();
@@ -53,9 +53,9 @@ async function loginFunc() {
             sessionStorage.setItem("userId", userId);
         }
 
-        if(userId === 1){
+        if(roleId === 1){
             window.location.replace("employee.html");
-        } else if (userId === 2) {
+        } else if (roleId === 2) {
             window.location.replace("manager.html");
         }
 
