@@ -3,7 +3,7 @@ const url = "http://localhost:8090/";
 let roleId = sessionStorage.getItem("roleId");
 let userId = sessionStorage.getItem("userId");
 
-if(roleId != 1 || roleId !=2){
+if(roleId != 1 && roleId !=2){
     window.location.replace("login.html")
 }
 
@@ -129,6 +129,8 @@ async function getReimbursement() {
      }
 
   }
+
+
 
 function logoutFunc(){
     sessionStorage.clear();

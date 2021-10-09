@@ -60,7 +60,10 @@ async function loginFunc() {
         }
 
     } else {
-        document.getElementById("login-row").appendChild("span");
+        let errorMessage = document.createElement("li");
+        errorMessage.innerHTML = "Failed to log in";
+        errorMessage.className = "list-group-item d-flex justify-content-center border-0 text-danger"
+        document.getElementById("loginList").appendChild(errorMessage);
     }
 
 }
